@@ -1,10 +1,14 @@
 package in.bt.demochain;
 
+import java.util.List;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
+import in.bt.demochain.model.Transaction;
 import in.bt.demochain.utils.CommonConstants;
+import in.bt.demochain.utils.CommonUtils;
 
 /**
  * Blockchain Trainer (www.blockchaintrainer.in)
@@ -25,10 +29,22 @@ public class StartChain implements CommandLineRunner {
     public void run(String... args) {
         System.err.println("starting chain...");
         Blockchain blockchain = new Blockchain(CommonConstants.DIFFICULTY);
-        blockchain.addBlock(blockchain.newBlock("blockchain trainer"));
-        blockchain.addBlock(blockchain.newBlock("IOTA data"));
-        blockchain.addBlock(blockchain.newBlock("https://www.blockchaintrainer.in"));
-        blockchain.addBlock(blockchain.newBlock("training@blockchaintrainer.in"));
+        //create a few transactions
+        List<Transaction> transactions = CommonUtils.createTransactions(4);
+        //add them to a block , and add the block to the chain
+        blockchain.addBlock(blockchain.newBlock(transactions));
+        //create a few more
+        transactions = CommonUtils.createTransactions(2); 
+        //add again
+        blockchain.addBlock(blockchain.newBlock(transactions));
+        //few more
+        transactions = CommonUtils.createTransactions(5);
+        //add again
+        blockchain.addBlock(blockchain.newBlock(transactions));
+        //lastly another 2
+        transactions = CommonUtils.createTransactions(3);
+        //add them too
+        blockchain.addBlock(blockchain.newBlock(transactions));
         System.out.println("Blockchain valid ? " + blockchain.isBlockChainValid());
         System.out.println(blockchain);
 

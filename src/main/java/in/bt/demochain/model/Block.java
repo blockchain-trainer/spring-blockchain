@@ -9,7 +9,9 @@ package in.bt.demochain.model;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Block {
 
@@ -17,14 +19,22 @@ public class Block {
     private long timestamp;
     private String hash;
     private String previousHash;
-    private String data;
+    private List<Transaction> transactions = new ArrayList<>();
     private int nonce;
 
-    public Block(int index, long timestamp, String previousHash, String data) {
+    public Block(int index, long timestamp, String previousHash, List<Transaction> transactions) {
         this.index = index;
         this.timestamp = timestamp;
         this.previousHash = previousHash;
-        this.data = data;
+        this.transactions.addAll(transactions);
+        nonce = 0;
+        hash = Block.calculateHash(this);
+    }
+    
+    public Block(int index, long timestamp, String previousHash) {
+        this.index = index;
+        this.timestamp = timestamp;
+        this.previousHash = previousHash;        
         nonce = 0;
         hash = Block.calculateHash(this);
     }
@@ -46,11 +56,11 @@ public class Block {
     }
 
     public String getData() {
-        return data;
+        return transactions.toString();
     }
 
     public String str() {
-        return index + timestamp + previousHash + data + nonce;
+        return index + timestamp + previousHash + transactions.toString() + nonce;
     }
 
     public String toString() {
@@ -64,7 +74,7 @@ public class Block {
             .append(new Date(timestamp))
             .append(", ")
             .append("data : ")
-            .append(data)
+            .append(transactions.toString())
             .append(", ")
             .append("hash : ")
             .append(hash)

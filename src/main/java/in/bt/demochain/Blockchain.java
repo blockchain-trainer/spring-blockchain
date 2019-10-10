@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import in.bt.demochain.model.Block;
+import in.bt.demochain.model.Transaction;
 
 /**
  * Blockchain Trainer (www.blockchaintrainer.in)
@@ -22,7 +23,7 @@ public class Blockchain {
         this.difficulty = difficulty;
         blocks = new ArrayList<>();
         // create the first block
-        Block b = new Block(0, System.currentTimeMillis(), null, "First Block");       
+        Block b = new Block(0, System.currentTimeMillis(), null);       
         b.mineBlock(difficulty);
         blocks.add(b);
     }
@@ -35,9 +36,9 @@ public class Blockchain {
         return blocks.get(blocks.size() - 1);
     }
 
-    public Block newBlock(String data) {
-        Block latestBlock = latestBlock();
-        return new Block(latestBlock.getIndex() + 1, System.currentTimeMillis(), latestBlock.getHash(), data);
+    public Block newBlock(List<Transaction> transactions) {
+        Block latestBlock = latestBlock();        
+        return new Block(latestBlock.getIndex() + 1, System.currentTimeMillis(), latestBlock.getHash(), transactions);
     }
 
     public void addBlock(Block b) {

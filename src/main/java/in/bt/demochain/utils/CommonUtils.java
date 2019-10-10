@@ -2,8 +2,12 @@ package in.bt.demochain.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 import in.bt.demochain.model.Block;
+import in.bt.demochain.model.Transaction;
 
 
 /**
@@ -43,6 +47,22 @@ public class CommonUtils {
         }
 
         return null;
+    }
+
+    public static List<Transaction> createTransactions(int count) {
+        List<Transaction> transactions = new ArrayList<Transaction>();
+        for (int i = 0; i < count; i++) {
+            transactions.add(createSingleTransactions());
+        }
+        return transactions;
+    }
+
+    private static Transaction createSingleTransactions() {
+        Transaction t = new Transaction();
+        t.setFrom("BlockChain trainer");
+        t.setData("Radom data "+ Math.random());
+        t.setTimeStamp(Calendar.getInstance().getTime());
+        return t;
     }
     
     
